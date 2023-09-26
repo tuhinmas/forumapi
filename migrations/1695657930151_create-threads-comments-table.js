@@ -25,11 +25,11 @@ exports.up = (pgm) => {
         },
         content: {
             type: "TEXT",
-            notNull: true
+            notNull: true,
         },
         deleted_at: {
             type: 'timestamp',
-        }
+        },
     });
 };
 

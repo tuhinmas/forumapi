@@ -11,5 +11,12 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "indent": "off",
+        "linebreak-style":"off",
+        "camelcase":"off",
+        "quotes": "off",
+        "import/no-unresolved":"off",
+        "import/extensions":"off",
+        "import/no-extraneous-dependencies":"off"
     }
 }
