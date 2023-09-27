@@ -15,9 +15,10 @@ describe("a add threads entities", () => {
         const payload = {
             title: true,
             body: "body",
+            owner: "owner",
         };
 
         // Action and Assert
         expect(() => new AddThread(payload)).toThrowError('ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
-      });
+    });
 });
