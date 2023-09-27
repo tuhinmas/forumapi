@@ -17,6 +17,8 @@
         "quotes": "off",
         "import/no-unresolved":"off",
         "import/extensions":"off",
-        "import/no-extraneous-dependencies":"off"
+        "import/no-extraneous-dependencies":"off",
+        "no-underscore-dangle": "off",
+        "class-methods-use-this":"off"
     }
 }

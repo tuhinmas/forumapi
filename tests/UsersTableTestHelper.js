@@ -10,7 +10,8 @@ const UsersTableTestHelper = {
       values: [id, username, password, fullname],
     };
 
-    await pool.query(query);
+    const result = await pool.query(query);
+    return result.rows[0];
   },
 
   async findUsersById(id) {
