@@ -1,8 +1,12 @@
 const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
 const users = require('../../Interfaces/http/api/users');
 const authentications = require('../../Interfaces/http/api/authentications');
+const threads = require('../../Interfaces/http/api/threads');
+const threadComments = require('../../Interfaces/http/api/threadComment');
+require('dotenv').config();
 
 const createServer = async (container) => {
   const server = Hapi.server({
@@ -10,20 +14,60 @@ const createServer = async (container) => {
     port: process.env.PORT,
   });
 
-  await server.register([
-    {
+  /* register external plugin */
+  await server.register([{
+    plugin: Jwt,
+  }]);
+
+  /* register strategi (same like middleware) using jwt */
+  server.auth.strategy('middleware', 'jwt', {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+    },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+      },
+    }),
+  });
+
+  /* register plugin */
+  await server.register([{
       plugin: users,
-      options: { container },
+      options: {
+        container,
+      },
     },
     {
       plugin: authentications,
-      options: { container },
+      options: {
+        container,
+      },
+    },
+    {
+      plugin: threads,
+      options: {
+        container,
+      },
+    },
+    {
+      plugin: threadComments,
+      options: {
+        container,
+      },
     },
   ]);
 
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
-    const { response } = request;
+    const {
+      response,
+    } = request;
 
     if (response instanceof Error) {
       // bila response tersebut error, tangani sesuai kebutuhan
@@ -34,6 +78,7 @@ const createServer = async (container) => {
         const newResponse = h.response({
           status: 'fail',
           message: translatedError.message,
+          trace: response.stack,
         });
         newResponse.code(translatedError.statusCode);
         return newResponse;
@@ -48,6 +93,7 @@ const createServer = async (container) => {
       const newResponse = h.response({
         status: 'error',
         message: 'terjadi kegagalan pada server kami',
+        trace: response.stack,
       });
       newResponse.code(500);
       return newResponse;

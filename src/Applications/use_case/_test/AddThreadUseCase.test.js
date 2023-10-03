@@ -33,7 +33,7 @@ describe('AddThreadUseCase', () => {
 
         /** creating use case instance */
         const getThreadUseCase = new AddThreadUseCase({
-            threadRepostory: mockThreadRepository,
+            threadRepository: mockThreadRepository,
         });
 
         // Action

@@ -8,13 +8,22 @@ const ThreadsTableTestHelper = {
         title = 'thread-test',
         body = 'Ini adalah thread',
     }) {
-        const owner = await userHelper.addUser();
+        await userHelper.addUser({
+            id: "user-thread",
+            username: 'threds-owner',
+            password: 'secret_password',
+        });
+
+        const user = await userHelper.findUsersById("user-thread");
+        const owner = user[0].id;
+
         const query = {
             text: 'INSERT INTO threads VALUES($1, $2, $3, $4)',
             values: [id, owner, title, body],
         };
 
-        await pool.query(query);
+        const result = await pool.query(query);
+        return result.rows[0];
     },
 
     async findThreadsById(id) {

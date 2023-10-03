@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const UsersTableTestHelper = require('../../../../tests/UsersTableTestHelper');
 const InvariantError = require('../../../Commons/exceptions/InvariantError');
 const RegisterUser = require('../../../Domains/users/entities/RegisterUser');
@@ -17,7 +18,9 @@ describe('UserRepositoryPostgres', () => {
   describe('verifyAvailableUsername function', () => {
     it('should throw InvariantError when username not available', async () => {
       // Arrange
-      await UsersTableTestHelper.addUser({ username: 'dicoding' }); // memasukan user baru dengan username dicoding
+      await UsersTableTestHelper.addUser({
+        username: 'dicoding',
+      }); // memasukan user baru dengan username dicoding
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
       // Action & Assert
@@ -112,7 +115,10 @@ describe('UserRepositoryPostgres', () => {
 
     it('should return user id correctly', async () => {
       // Arrange
-      await UsersTableTestHelper.addUser({ id: 'user-321', username: 'dicoding' });
+      await UsersTableTestHelper.addUser({
+        id: 'user-321',
+        username: 'dicoding',
+      });
       const userRepositoryPostgres = new UserRepositoryPostgres(pool, {});
 
       // Action
