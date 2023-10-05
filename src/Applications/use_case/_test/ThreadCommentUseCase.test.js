@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-undef */
 const ThreadCommentRepository = require("../../../Domains/threadComments/ThreadCommentRepository");
+const ThreadRepository = require("../../../Domains/threads/ThreadRepository");
 const AddThreadComment = require("../../../Domains/threadComments/entities/AddThreadComment");
 const AddedThreadComment = require("../../../Domains/threadComments/entities/AddedThreadComment");
 const ThreadCommentUseCase = require('../ThreadCommentUseCase');
@@ -26,6 +27,15 @@ describe('AddThreadUseCase', () => {
         /** creating dependency of use case */
         const mockThreadCommentRepository = new ThreadCommentRepository();
 
+        /** creating dependency of use case */
+        const mockThreadRepository = new ThreadRepository();
+
+        // console.log(mockThreadRepository.addThread());
+
+        /** mocking needed function */
+        mockThreadRepository.getThreadById = jest.fn()
+            .mockImplementation(() => Promise.resolve());
+
         /** mocking needed function */
         mockThreadCommentRepository.addThreadComment = jest.fn()
             .mockImplementation(() => Promise.resolve(mockAddedThreadComment));
@@ -33,6 +43,7 @@ describe('AddThreadUseCase', () => {
         /** creating use case instance */
         const getThreadUseCase = new ThreadCommentUseCase({
             threadCommentRepository: mockThreadCommentRepository,
+            threadRepository: mockThreadRepository,
         });
 
         // Action

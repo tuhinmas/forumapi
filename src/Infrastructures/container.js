@@ -39,8 +39,7 @@ const ThreadCommentUseCase = require("../Applications/use_case/ThreadCommentUseC
 const container = createContainer();
 
 // registering services and repository
-container.register([
-  {
+container.register([{
     key: UserRepository.name,
     Class: UserRepositoryPostgres,
     parameter: {
@@ -85,12 +84,12 @@ container.register([
     Class: ThreadRepositoryPostgres,
     parameter: {
       dependencies: [{
-        concrete: pool,
-      },
-      {
-        concrete: nanoid,
-      },
-    ],
+          concrete: pool,
+        },
+        {
+          concrete: nanoid,
+        },
+      ],
     },
   },
   {
@@ -98,19 +97,18 @@ container.register([
     Class: ThreadCommentRepositoryPostgres,
     parameter: {
       dependencies: [{
-        concrete: pool,
-      },
-      {
-        concrete: nanoid,
-      },
-    ],
+          concrete: pool,
+        },
+        {
+          concrete: nanoid,
+        },
+      ],
     },
   },
 ]);
 
 // registering use cases
-container.register([
-  {
+container.register([{
     key: AddUserUseCase.name,
     Class: AddUserUseCase,
     parameter: {
@@ -193,10 +191,16 @@ container.register([
     Class: ThreadCommentUseCase,
     parameter: {
       injectType: 'destructuring',
-      dependencies: [{
-        name: 'threadRepository',
-        internal: ThreadCommentRepository.name,
-      }],
+      dependencies: [
+        {
+          name: 'threadCommentRepository',
+          internal: ThreadCommentRepository.name,
+        },
+        {
+          name: 'threadRepository',
+          internal: ThreadRepository.name,
+        },
+      ],
     },
   },
 ]);

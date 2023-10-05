@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const autoBind = require('auto-bind');
 const ThreadCommentUseCase = require("../../../../Applications/use_case/ThreadCommentUseCase");
 
@@ -18,7 +19,7 @@ class ThreadCommentsHandler {
         } = request.auth.credentials;
 
         const {
-            id: threadId,
+            threadId,
         } = request.params;
 
         const addThreadCommentUseCase = this._container.getInstance(ThreadCommentUseCase.name);
@@ -35,6 +36,30 @@ class ThreadCommentsHandler {
             },
         });
         response.code(201);
+        return response;
+    }
+
+    async deleteThreadCommentHandler(request, h) {
+        const {
+            id: owner,
+        } = request.auth.credentials;
+
+        const {
+            threadId,
+            commentId,
+        } = request.params;
+
+        const deleteThreadCommentUseCase = this._container.getInstance(ThreadCommentUseCase.name);
+        await deleteThreadCommentUseCase.deleteThreadComment({
+            threadId,
+            commentId,
+            owner,
+        });
+
+        const response = h.response({
+            status: 'success',
+        });
+        response.code(200);
         return response;
     }
 }
