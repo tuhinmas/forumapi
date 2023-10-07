@@ -67,6 +67,26 @@ class ThreadCommentRepositoryPostgres extends ThreadCommentRepository {
             throw new NotFoundError('komentar tidak ditemukan');
         }
     }
+
+    async getThreadCommentsByThreadId(threadId) {
+        const query = {
+            text: `SELECT tc.id, users.username, tc.date, tc.content, tc.is_deleted
+            FROM thread_comments tc
+            INNER JOIN users ON tc.owner = users.id
+            WHERE tc.thread_id = $1
+            ORDER BY tc.date ASC
+          `,
+            values: [threadId],
+        };
+
+        const result = await this._pool.query(query);
+
+        if (!result.rowCount) {
+            throw new NotFoundError('komentar tidak ditemukan');
+        }
+
+        return result.rows;
+    }
 }
 
 module.exports = ThreadCommentRepositoryPostgres;

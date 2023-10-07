@@ -5,7 +5,7 @@ class DetailThread {
         const {
             id,
             title,
-            owner,
+            // owner,
             body,
             date,
             username,
@@ -13,7 +13,7 @@ class DetailThread {
 
         this.id = id;
         this.title = title;
-        this.owner = owner;
+        // this.owner = owner;
         this.body = body;
         this.date = date;
         this.username = username;
@@ -22,17 +22,17 @@ class DetailThread {
     _verifyPayload({
         id,
         title,
-        owner,
+        // owner,
         body,
         date,
         username,
     }) {
-        if (!id || !title || !owner || !body || !date || !username) {
+        if (!id || !title || !body || !date || !username) {
             throw new Error('ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
         }
 
         const dateCheck = new Date(date);
-        if (typeof id !== 'string' || typeof title !== 'string' || typeof owner !== 'string' || typeof body !== 'string' || typeof username !== 'string' || (dateCheck instanceof Date && isNaN(dateCheck))) {
+        if (typeof id !== 'string' || typeof title !== 'string' || typeof body !== 'string' || typeof username !== 'string' || (dateCheck instanceof Date && isNaN(dateCheck))) {
             throw new Error('ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
         }
     }
