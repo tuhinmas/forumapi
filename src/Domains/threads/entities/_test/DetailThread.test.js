@@ -45,7 +45,6 @@ describe('a DetailThread entities', () => {
         // Assert
         expect(detailThread.id).toEqual(payload.id);
         expect(detailThread.title).toEqual(payload.title);
-        expect(detailThread.owner).toEqual(payload.owner);
         expect(detailThread.body).toEqual(payload.body);
         expect(detailThread.username).toEqual(payload.username);
         expect(detailThread.date).toEqual(payload.date);

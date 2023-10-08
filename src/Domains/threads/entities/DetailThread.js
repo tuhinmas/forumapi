@@ -5,7 +5,6 @@ class DetailThread {
         const {
             id,
             title,
-            // owner,
             body,
             date,
             username,
@@ -13,7 +12,6 @@ class DetailThread {
 
         this.id = id;
         this.title = title;
-        // this.owner = owner;
         this.body = body;
         this.date = date;
         this.username = username;
@@ -22,7 +20,6 @@ class DetailThread {
     _verifyPayload({
         id,
         title,
-        // owner,
         body,
         date,
         username,

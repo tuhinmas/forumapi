@@ -48,7 +48,7 @@ describe('ThreadRepositoryPostgres', () => {
             expect(threadComment).toHaveLength(1);
         });
 
-        it('should return added thread correctly', async () => {
+        it('should return added thread comment correctly', async () => {
             await ThreadsTableTestHelper.addThread({
                 id: 'thread-123',
                 title: 'thread-test',

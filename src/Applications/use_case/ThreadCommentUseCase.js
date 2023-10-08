@@ -24,11 +24,6 @@ class ThreadCommentUseCase {
 
         await this._threadCommentRepository.deleteCommentById(commentId);
     }
-
-    // async getThreadCommentByThreadId(useCasePayload) {
-    //     const newThreadComment = new AddThreadComment(useCasePayload);
-    //     return this._threadRepository.addThreadComment(newThreadComment);
-    // }
 }
 
 module.exports = ThreadCommentUseCase;

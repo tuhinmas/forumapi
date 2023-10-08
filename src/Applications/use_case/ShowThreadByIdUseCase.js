@@ -12,7 +12,7 @@ class ShowThreadByIdUseCase {
 
     async execute(threadId) {
         const thread = await this._threadRepository.getThreadById(threadId);
-        const threadComments = await this._threadCommentRepository.getThreadCommentsByThreadId(threadId);
+        const threadComments = await this._threadCommentRepository.getThreadCommentByThreadId(threadId);
         const validatedComments = this._mapComment(threadComments);
 
         return {

@@ -235,5 +235,31 @@ describe('/threads/{threadId}/comments endpoint', () => {
             expect(responseJson.status).toEqual('fail');
             expect(responseJson.message).toBeDefined();
         });
+
+        it('should response 404 when comment does not exist', async () => {
+            // Arrange
+            const server = await createServer(container);
+            const token = await AuthenticationTestHelper.accessToken(server);
+
+            const threadId = 'thread-123';
+            await ThreadsTableTestHelper.addThread({
+                id: threadId,
+            });
+
+            // Action
+            const response = await server.inject({
+                method: 'DELETE',
+                url: `/threads/${threadId}/comments/xxx`,
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Assert
+            const responseJson = JSON.parse(response.payload);
+            expect(response.statusCode).toEqual(404);
+            expect(responseJson.status).toEqual('fail');
+            expect(responseJson.message).toBeDefined();
+        });
     });
 });

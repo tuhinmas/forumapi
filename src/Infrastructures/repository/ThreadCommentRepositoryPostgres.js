@@ -61,14 +61,10 @@ class ThreadCommentRepositoryPostgres extends ThreadCommentRepository {
             values: [commentId],
         };
 
-        const result = await this._pool.query(query);
-
-        if (!result.rowCount) {
-            throw new NotFoundError('komentar tidak ditemukan');
-        }
+        await this._pool.query(query);
     }
 
-    async getThreadCommentsByThreadId(threadId) {
+    async getThreadCommentByThreadId(threadId) {
         const query = {
             text: `SELECT tc.id, users.username, tc.date, tc.content, tc.is_deleted
             FROM thread_comments tc
@@ -80,11 +76,6 @@ class ThreadCommentRepositoryPostgres extends ThreadCommentRepository {
         };
 
         const result = await this._pool.query(query);
-
-        if (!result.rowCount) {
-            throw new NotFoundError('komentar tidak ditemukan');
-        }
-
         return result.rows;
     }
 }
